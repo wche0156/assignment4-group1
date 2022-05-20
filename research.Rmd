@@ -96,7 +96,7 @@ figure2 = world_data %>%
   geom_sf(colour = NA) +
   labs(x = 'Longitude',
        y = 'Latitude',
-       title = '  Year: {closest_state}') +
+       title = 'Year: {closest_state}') +
   scale_fill_viridis_c(na.value = 'grey') +
   theme_void() +
   theme(legend.position = 'bottom') +
@@ -111,5 +111,17 @@ anim_save('figure2.gif')
 ```
 
 
+```{r}
+by_country <- overweight_or_obese %>% 
+  rename('caloric_supply' = 'Daily caloric supply (OWID based on UN FAO & historical sources)',
+         'Overweight' = 'Overweight or Obese (NCDRisC (2017))') %>% 
+  select(Entity, Year, caloric_supply, Overweight) %>%
+  filter(Entity %in% c("Australia", "China",
+                       "United States", "United Kindom",
+                       "South Africa", "Brazil"),
+         Year >= 2000) %>%
+  drop_na() %>%
+  nest()
+```
 
 
