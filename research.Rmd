@@ -135,7 +135,7 @@ The American diet has a high fat content, and Americans like to use cooking meth
 
 
 Table analysis of both countries
-```{r US, tab.cap="Calories Intake of United States"}
+```{r Calories-Intake-of-United-States, tab.cap="Calories Intake of United States"}
 summary_US <- US_Data %>% 
   dplyr::select(total_Cal,Protein_Cal,Fat_Cal,Carbohydrates_Cal) %>%
   summary() %>% 
@@ -146,7 +146,7 @@ summary_US
 ```
 
 
-```{r Japan, tab.cap="Calories Intake of Japan"}
+```{r Calories-Intake-of-Japan, tab.cap="Calories Intake of Japan"}
 summary_Japan <- Japan_Data %>% 
   dplyr::select(total_Cal,Protein_Cal,Fat_Cal,Carbohydrates_Cal) %>%
   summary() %>% 
@@ -184,7 +184,7 @@ From the picture, we can guess that the Japanese people's awareness of dietary h
 As above we found that fat is the biggest differentiating factor between the two countries. Therefore, we further investigated the trend of fat intake over time.
 
 
-```{r fat, fig.cap= "Fat Calories Intake of over the years", warning=FALSE}
+```{r Fat-Calories-Intake-of-over-the-years, fig.cap= "Fat Calories Intake of over the years", warning=FALSE}
 plot_Fat_Calories_Intake <- mydata%>% 
   ggplot(section2_chile_canada, mapping =  aes(
     x = Year, 
