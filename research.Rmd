@@ -30,3 +30,63 @@ library(knitr)
 library(scales)
 library(patchwork)
 ```
+
+
+\newpage
+\section*{Country United State and Japan"}
+\addcontentsline{toc}{subsection}{Introduction}
+\subsection*{Introduction}
+With the improvement of people's living standards, more and more people begin to pay attention to diet. As we all know, a healthy diet can help us maintain a healthy body and figure, and effectively prevent dangerous diseases such as high blood pressure and high blood lipids. In our daily diet, our calorie intake mainly comes from three major nutrients, namely protein, fat and carbohydrates. Studies have shown that the proportion of the three major nutrients in the daily diet plays a very important role in human health. On the other hand, people in different regions have different eating habits due to differences in climate and terrain. The food culture of each country is very different, Americans love sweets and bread, Japanese love seafood and small dishes.
+In this report, I study the differences in diet between the United States and Japan and analyze the changes in the per capita calorie intake and the intake of the three major nutrients in the United States and Japan since 1960, starting from two aspects of eating habits and time trends A comparative analysis of the eating habits and health of the two countries.
+
+
+```{r filter-section1-read data}
+data <- read.csv("Data/daily-caloric-supply-derived-from-carbohydrates-protein-and-fat.csv")
+
+mydata <- data %>% filter(Entity %in% c("United States","Japan"))
+```
+
+```{r missing_section_data, eval=FALSE}
+pct_miss(mydata) #0 missingness in the UK and Iceland data
+pct_miss_case(mydata)
+pct_miss_var(mydata)
+```
+
+
+```{r data preprocessing}
+
+mydata <- mydata %>% 
+  mutate(total_Cal = Calories.from.animal.protein..FAO..2017..
+         +Calories.from.plant.protein..FAO..2017..
+         +Calories.from.fat..FAO..2017..
+         +Calories.from.carbohydrates..FAO..2017..,
+         Protein_Cal=Calories.from.animal.protein..FAO..2017..
+         +Calories.from.plant.protein..FAO..2017..,
+         `Protein(%)`=percent((
+           Calories.from.animal.protein..FAO..2017..
+           +Calories.from.plant.protein..FAO..2017..)/total_Cal,
+           accuracy = 4),
+         `Fat(%)`=percent(
+           Calories.from.fat..FAO..2017../total_Cal
+           ,accuracy = 4),
+         `Carbohydrates(%)`=percent(
+           Calories.from.carbohydrates..FAO..2017../total_Cal,
+           accuracy = 4))%>%
+  rename(Fat_Cal=Calories.from.fat..FAO..2017..,
+         Carbohydrates_Cal=Calories.from.carbohydrates..FAO..2017..,
+         Animal_Protein_Cal=Calories.from.animal.protein..FAO..2017..,
+         Plant_Protein_Cal=Calories.from.plant.protein..FAO..2017..)
+mydata=mydata%>%
+  filter(Year<=2010)%>%
+  filter(Year>=1961)
+
+US_Data <- mydata %>% filter(Entity =="United States") 
+
+Japan_Data <- mydata %>% filter(Entity =="Japan")
+
+mydata <- US_Data %>% rbind(Japan_Data)
+
+mydata_long <- mydata %>% 
+  pivot_longer(cols=c(total_Cal,Protein_Cal, Fat_Cal,Carbohydrates_Cal ),
+               names_to = "impact_variable", values_to = "measure")
+```
