@@ -78,5 +78,20 @@ anim_save("figure1.gif")
 ```
 
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# read world map data
+world <- readOGR(dsn = 'World_Countries_(Generalized)/.')
+world_shp <- world %>% 
+  st_as_sf()
+world_data <- daily_caloric_supply %>%
+  select(Entity, Year, `Calories from animal protein `) %>%
+  merge(world_shp,
+        by.x = 'Entity',
+        by.y = 'COUNTRY') %>% 
+  st_as_sf()
+
+```
+
+
 
 
