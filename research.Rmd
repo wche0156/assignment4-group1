@@ -27,3 +27,17 @@ library(gganimate)
 library(transformr)
 ```
 
+
+# Analysis
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# read data
+daily_caloric_supply <- read_csv("Data/daily-caloric-supply-derived-from-carbohydrates-protein-and-fat.csv")
+dietary_compositions <- read_csv("Data/dietary-compositions-by-commodity-group.csv")
+overweight_or_obese <- read_csv("Data/share-of-adult-men-overweight-or-obese-vs-daily-supply-of-calories.csv")
+```
+
+
+
+
+
