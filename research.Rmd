@@ -90,6 +90,24 @@ world_data <- daily_caloric_supply %>%
         by.y = 'COUNTRY') %>% 
   st_as_sf()
 
+# data figure2
+figure2 = world_data %>%
+  ggplot(aes(fill = `Calories from animal protein `)) +
+  geom_sf(colour = NA) +
+  labs(x = 'Longitude',
+       y = 'Latitude',
+       title = '  Year: {closest_state}') +
+  scale_fill_viridis_c(na.value = 'grey') +
+  theme_void() +
+  theme(legend.position = 'bottom') +
+  transition_states(states = Year)
+figure2
+animate(figure2,
+        res = 300,
+        width = 2000,
+        height = 1125,
+        renderer = gifski_renderer())
+anim_save('figure2.gif')
 ```
 
 
