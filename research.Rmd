@@ -90,3 +90,54 @@ mydata_long <- mydata %>%
   pivot_longer(cols=c(total_Cal,Protein_Cal, Fat_Cal,Carbohydrates_Cal ),
                names_to = "impact_variable", values_to = "measure")
 ```
+
+
+\addcontentsline{toc}{subsection}{Question1}
+\subsection*{Question1}
+(1)What is the difference in the proportions of total Calories and the three major nutrients (protein, fat, carbohydrate) from 1970 in the American and Japanese diets?
+
+```{r ThreemajorComparision, tab.cap = "Energy Consumption Comparision"}
+mydata %>% 
+  pivot_wider(id_cols = c(Year),
+              names_from = Entity,
+              values_from = c(total_Cal)) %>%
+  filter(Year>=1970)%>%
+  arrange(desc(Year)) %>%
+  knitr::kable(caption = "Proportions of the Nutrients Comparision")
+```
+
+
+```{r mydata_long, echo = FALSE}
+mydata_long %>% ggplot() +
+  geom_col(mapping = aes(x = Year, y = measure, fill = Entity), position="fill")+facet_wrap(~impact_variable, nrow = 2)+ylab("Proportion")
+```
+\begin{figure}[H]
+\includegraphics[width=6in, height = 2in]{Figures/proportion_countries_yearly-1}
+\caption{Proportion Share Across The Years}
+\label{fig:proportion_countries_yearly}
+\end{figure}
+
+Figure 1 and Table 1 show that from 1961 to 2010, the share of per capita calorie intake in the United States and Japan did not change much, with the United States consistently having slightly higher calorie intake than Japan.
+From the perspective of the proportion of the three major nutrients of protein, fat and carbohydrates, the intake of fat in the American people's diet is much higher than that of the Japanese, and the intake of carbohydrates in the daily diet of the Japanese is higher than that of the United States. people. For protein intake, Americans and Japanese intakes are not much different.
+In summary, we can find that in terms of dietary habits, Japan and the United States show significant differences in the ratio of carbohydrates and fats in calorie intake. The American diet has more calories from fat, while the Japanese diet has more carbohydrates.
+
+
+```{r distributionboxplot, fig.cap="Distribution of Protein,Fat,Carbohydrates",echo = FALSE, message = FALSE, warning = FALSE, fig.pos = "H" }
+
+p1 <- mydata %>%ggplot()+geom_boxplot(mapping = aes(y = `Protein(%)`, x = Entity, group = Entity),position = "dodge")
+
+p2 <- mydata %>%ggplot()+geom_boxplot(mapping = aes(y = `Fat(%)`, x = Entity, group = Entity),position = "dodge")
+
+p3 <- mydata %>%ggplot()+geom_boxplot(mapping = aes(y = `Carbohydrates(%)`, x = Entity, group = Entity),position = "dodge")
+p1+p2+p3
+```
+
+\begin{figure}[H]
+\includegraphics[width=6in, height = 2in]{Figures/distributionboxplot-1}
+\caption{Distribution of Protein,Fat,Carbohydrates}
+\label{fig:distributionboxplot}
+\end{figure}
+
+The boxplot shows that in terms of diet, the difference in the proportion of protein calories consumed in Japan and the United States is not large, and the values are both around 12%. The proportion of fat and carbohydrates in the calorie intake in Japan and the United States is quite different. The proportion of fat in the Japanese diet is mostly between 20% and 28%, while the proportion of fat in the American diet is between 36% and 38%. between. Carbohydrates, on the other hand, are mostly between 60% and 68% carbohydrates in the Japanese diet, compared to 50% to 52% in the American diet.
+We learned from the survey that this is due to the differences in food culture, geographical environment, historical and cultural differences between the two regions. The geographical location of Japan is close to the sea, and the Japanese diet is relatively light. Therefore, special attention is paid to the intake of fats and oils in the daily calorie intake. The Japanese diet has a high proportion of ramen and rice, so the proportion of carbohydrates is also high.
+The American diet has a high fat content, and Americans like to use cooking methods such as frying and roasting, which has also led to a large increase in the proportion of fat.
