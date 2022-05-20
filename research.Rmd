@@ -38,6 +38,45 @@ overweight_or_obese <- read_csv("Data/share-of-adult-men-overweight-or-obese-vs-
 ```
 
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# data wrangling
+daily_caloric_supply <- daily_caloric_supply %>%
+  rename_all(str_remove, pattern = "\\(FAO.+\\)") %>%
+  select(-Code)
+
+dietary_compositions <- dietary_compositions %>%
+  rename_all(str_remove, pattern = "\\(FAO.+\\)") %>%
+  select(-Code)
+```
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# data figure1
+figure1 <- dietary_compositions %>% 
+  filter(Entity == 'Australia') %>% 
+  pivot_longer(cols = -c(Entity,Year),
+               names_to = 'Variable',
+               values_to = 'Value') %>% 
+  ggplot(aes(x = Year, y = Value, fill = Variable)) +
+  geom_area(color = 'white') +
+  scale_fill_viridis_d() +
+  labs(y = 'Kilocalories per Person per Day',
+       title = 'Kilocalories per Person per Day in Australia') +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = 'bottom',
+        text = element_text(size = 8)) +
+  transition_reveal(Year)
+
+figure1
+animate(figure1,
+        res = 300,
+        width = 2000,
+        height = 1125,
+        renderer = gifski_renderer())
+anim_save("figure1.gif")
+```
+
 
 
 
