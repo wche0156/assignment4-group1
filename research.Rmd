@@ -32,10 +32,7 @@ library(patchwork)
 ```
 
 
-\newpage
-\section*{Country United State and Japan"}
-\addcontentsline{toc}{subsection}{Introduction}
-\subsection*{Introduction}
+# Introduction
 With the improvement of people's living standards, more and more people begin to pay attention to diet. As we all know, a healthy diet can help us maintain a healthy body and figure, and effectively prevent dangerous diseases such as high blood pressure and high blood lipids. In our daily diet, our calorie intake mainly comes from three major nutrients, namely protein, fat and carbohydrates. Studies have shown that the proportion of the three major nutrients in the daily diet plays a very important role in human health. On the other hand, people in different regions have different eating habits due to differences in climate and terrain. The food culture of each country is very different, Americans love sweets and bread, Japanese love seafood and small dishes.
 In this report, I study the differences in diet between the United States and Japan and analyze the changes in the per capita calorie intake and the intake of the three major nutrients in the United States and Japan since 1960, starting from two aspects of eating habits and time trends A comparative analysis of the eating habits and health of the two countries.
 
@@ -92,8 +89,7 @@ mydata_long <- mydata %>%
 ```
 
 
-\addcontentsline{toc}{subsection}{Question1}
-\subsection*{Question1}
+# Question1
 (1)What is the difference in the proportions of total Calories and the three major nutrients (protein, fat, carbohydrate) from 1970 in the American and Japanese diets?
 
 ```{r ThreemajorComparision, tab.cap = "Energy Consumption Comparision"}
@@ -143,8 +139,7 @@ We learned from the survey that this is due to the differences in food culture, 
 The American diet has a high fat content, and Americans like to use cooking methods such as frying and roasting, which has also led to a large increase in the proportion of fat.
 
 
-\addcontentsline{toc}{subsection}{Question2}
-\subsection*{Question2}
+# Question2
 (2)  What is the difference between the time trends of TotalCalories and Calories of Protein, Fat, Carbohydrates in the two countries?
 
 
@@ -235,8 +230,7 @@ In conclusion, from Table 2,3 and Figure 3, Figure 4 and 5 we can find that the 
 All in all, with the development of society and the progress of economy, how to maintain a healthy eating habit has become an increasingly important issue. In addition to paying attention to the total calorie intake of the diet, people also need to pay attention to the energy supply ratio of the three major nutrients, protein, fat and carbohydrates. Reasonable arrangement of the proportion of nutrients can help us maintain a healthier body and prolong our energy consumption. longevity and reduce the incidence of disease.
 
 
-\newpage
-\subsection*{Reference}
+# Reference
 @article{1992Calories,
   title={Calories count. Improved weight gain with dietary intervention in congenital heart disease},
   author={ Unger, R.  and  Dekleermaeker, M.  and  Gidding, S. S.  and  Christoffel, K. K. },
