@@ -172,7 +172,9 @@ plot_Calories_Intake <- mydata%>%
   xlab("Year") +
   ylab("Total Calories Intake") +
   ggtitle("Calories Intake of over the years")
+plot_Calories_Intake
 ```
+
 
 
 
@@ -195,7 +197,9 @@ plot_Fat_Calories_Intake <- mydata%>%
   xlab("Year") +
   ylab("Fat Calories Intake") +
   ggtitle("Fat Calories Intake of over the years")
+plot_Fat_Calories_Intake
 ```
+
 
 
 Figure\@ref(fig:Fat-Calories-Intake-of-over-the-years) shows the trend of fat calories intake in the United States and Japan over time.
