@@ -55,9 +55,9 @@ aes(x = `Latitude - lp_lat_abst`,
  shape = 1)+theme_bw()
 
 ```
+Table 1 ranks all the Annual per capita consumption of rice in different countries in 2015 in descending order, while Figure 1 plots the distribution by Latitude and the geographical region to which the country belongs.
 
-根据表1我们可以看出，具有最大大米消费量的前5个国家是Thailand, Philippines,Sri Lanka
-
+According to Table 1, the top 5 countries with the largest rice consumption are Bangladesh, Laos, Cambodia, Vietnam,In combination with Figure 1, it is easy to notice the phenomenon that the countries with higher Annual per capita consumption of rice are mainly in the Latitude between0 and 0.4. Also, when looking at the color of the points, it can be seen that the points representing higher rice consumption represent the map areas of Africa and Asia.
 
 
 
