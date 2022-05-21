@@ -22,6 +22,7 @@ library(kableExtra)
 library(bookdown)
 library(tinytex)
 library(rgdal)
+library(broom)
 library(sf)
 library(gganimate)
 library(transformr)
@@ -118,7 +119,7 @@ by_country <- overweight_calories %>%
          'Overweight' = 'Overweight or Obese (NCDRisC (2017))') %>% 
   select(Entity, Year, caloric_supply, Overweight) %>%
   filter(Entity %in% c("Australia", "China",
-                       "United States", "United Kindom",
+                       "United States", "United Kingdom",
                        "South Africa", "Brazil"),
          Year >= 2000) %>%
   drop_na() %>%
@@ -132,10 +133,42 @@ by_country <- overweight_calories %>%
 fit_lm <- function(x){
   lm(Overweight~caloric_supply, data = x)
 }
-
 mapped_lm <- map(by_country$data, fit_lm)
+
+
+# Intercept and Slope
+rbind(coef(mapped_lm[[1]]),
+      coef(mapped_lm[[2]]),
+      coef(mapped_lm[[3]]),
+      coef(mapped_lm[[4]]),
+      coef(mapped_lm[[5]]),
+      coef(mapped_lm[[6]])) %>%
+  as.data.frame() %>%
+  mutate(Country = c("Australia", "Brazil", "China", 
+                     "South Africa", "United Kingdom", "United States")) %>%
+  rename(Intercept = "(Intercept)",
+         Slope = "caloric_supply") %>%
+  select(Country, Intercept, Slope)
 ```
 
+
+```{r}
+library(data.table)
+Australia_lm_summary <- glance(mapped_lm[[1]])
+Brazil_lm_summary <- glance(mapped_lm[[2]])
+China_lm_summary <- glance(mapped_lm[[3]])
+South_Africa_lm_summary <- glance(mapped_lm[[4]])
+United_Kingdom_lm_summary <- glance(mapped_lm[[5]])
+United_States_lm_summary <- glance(mapped_lm[[6]])
+
+summary <- list(Australia_lm_summary, Brazil_lm_summary, China_lm_summary, 
+                South_Africa_lm_summary, United_Kingdom_lm_summary, United_States_lm_summary) %>%
+  rbindlist(use.names = TRUE) %>%
+  round(2) %>%
+  mutate(Country = c("Australia", "Brazil", "China",
+                     "South_Africa", "United_Kingdom", "United States"))
+summary
+```
 
 
 
