@@ -20,9 +20,6 @@ library(kableExtra)
 library(bookdown)
 library(tinytex)
 library(rgdal)
-library(sf)
-library(gganimate)
-library(ggrepel)
 ```
 
 # Research questions
@@ -33,8 +30,11 @@ Rice consumption vs. latitude and region, 2015
 ```{r read_data, echo = FALSE}
 Assignment4_data <- read_csv("Data/rice-consumption-vs-latitude.csv")
 data_tidy <- Assignment4_data %>%
-  filter(Year == 2015)
-data_tidy <- data_tidy %>% drop_na(`Rice (Milled Equivalent) - Food supply quantity (kg/capita/yr)`) %>% drop_na(`Latitude - lp_lat_abst`)
+  filter(Year == 2015)%>%
+  rename(`Rice consumption(kg/capita/yr)` = `Rice (Milled Equivalent) - Food supply quantity (kg/capita/yr)`) %>%
+  rename(Latitude = `Latitude - lp_lat_abst`)
+
+data_tidy <- data_tidy %>% drop_na(`Rice consumption(kg/capita/yr)`) %>% drop_na(Latitude)
 ```
 
 
@@ -42,7 +42,7 @@ data_tidy <- data_tidy %>% drop_na(`Rice (Milled Equivalent) - Food supply quant
 ```{r table-1}
 
 knitr::kable(
-  head(arrange(data_tidy,desc(`Rice (Milled Equivalent) - Food supply quantity (kg/capita/yr)`)),20), caption = 'Rice consumption',
+  head(arrange(data_tidy,desc(`Rice consumption(kg/capita/yr)`)),20), caption = 'Rice consumption',
   booktabs = TRUE,digits = 2
 ) %>%
 kable_styling(latex_options = c("striped", "hold_position"))
@@ -51,8 +51,8 @@ kable_styling(latex_options = c("striped", "hold_position"))
 
 ```{r fig-1, echo = FALSE, fig.align = "center", fig.width = 7, fig.cap ="Annual per capita consumption of rice in different countries"}
 ggplot(data = data_tidy, 
-aes(x = `Latitude - lp_lat_abst`,
-    y = `Rice (Milled Equivalent) - Food supply quantity (kg/capita/yr)`)) +
+aes(x = Latitude,
+    y = `Rice consumption(kg/capita/yr)`)) +
  geom_point(aes(colour = Continent)) +
  geom_point(data = data_tidy,
  size = 2,
