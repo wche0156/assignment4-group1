@@ -34,7 +34,7 @@ library(transformr)
 # read data
 daily_caloric_supply <- read_csv("Data/daily-caloric-supply-derived-from-carbohydrates-protein-and-fat.csv")
 dietary_compositions <- read_csv("Data/dietary-compositions-by-commodity-group.csv")
-overweight_or_obese <- read_csv("Data/share-of-adult-men-overweight-or-obese-vs-daily-supply-of-calories.csv")
+overweight_calories <- read_csv("Data/share-of-adult-men-overweight-or-obese-vs-daily-supply-of-calories.csv")
 ```
 
 
@@ -112,7 +112,8 @@ anim_save('figure2.gif')
 
 
 ```{r}
-by_country <- overweight_or_obese %>% 
+# data wrangling
+by_country <- overweight_calories %>% 
   rename('caloric_supply' = 'Daily caloric supply (OWID based on UN FAO & historical sources)',
          'Overweight' = 'Overweight or Obese (NCDRisC (2017))') %>% 
   select(Entity, Year, caloric_supply, Overweight) %>%
@@ -121,7 +122,20 @@ by_country <- overweight_or_obese %>%
                        "South Africa", "Brazil"),
          Year >= 2000) %>%
   drop_na() %>%
+  group_by(Entity)%>%
   nest()
 ```
+
+
+```{r}
+# linear models
+fit_lm <- function(x){
+  lm(Overweight~caloric_supply, data = x)
+}
+
+mapped_lm <- map(by_country$data, fit_lm)
+```
+
+
 
 
