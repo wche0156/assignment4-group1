@@ -207,7 +207,6 @@ Figure\@ref(fig:Fat-Calories-Intake-of-over-the-years) shows the trend of fat ca
 From the Figure\@ref(fig:Fat-Calories-Intake-of-over-the-years), we can find that the intake of fat in the diet of Japan and the United States shows a trend of increasing year by year, and the gap between the two countries has changed very little in the past 50 years, and it can be seen as almost no change.
 
 
-
 # Conclusion
 
 All in all, with the development of society and the progress of economy, how to maintain a healthy eating habit has become an increasingly important issue. In addition to paying attention to the total calorie intake of the diet, people also need to pay attention to the energy supply ratio of the three major nutrients, protein, fat and carbohydrates. Reasonable arrangement of the proportion of nutrients can help us maintain a healthier body and prolong our energy consumption. longevity and reduce the incidence of disease.
