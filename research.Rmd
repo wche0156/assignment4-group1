@@ -205,7 +205,6 @@ plot_Fat_Calories_Intake
 Figure\@ref(fig:Fat-Calories-Intake-of-over-the-years) shows the trend of fat calories intake in the United States and Japan over time.
 
 From the Figure\@ref(fig:Fat-Calories-Intake-of-over-the-years), we can find that the intake of fat in the diet of Japan and the United States shows a trend of increasing year by year, and the gap between the two countries has changed very little in the past 50 years, and it can be seen as almost no change.
-In conclusion, from Table 2,3 and Figure\@ref(fig:Distribution-of-Protein-Fat-Carbohydrates-boxplot) Figure\@ref(fig:Calories-Intake-of-over-the-years) and Figure\@ref(fig:Fat-Calories-Intake-of-over-the-years) we can find that the UK has done a lot of effective work and achieved good results in protecting nature.
 
 
 
