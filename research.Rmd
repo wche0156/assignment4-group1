@@ -122,6 +122,14 @@ anim_save('figure2.gif')
 ```
 
 
+# Data Explanation
+To better represent the variation in calories provided by animal protein around the world, I first downloaded data from a world map online, then matched it to the dataset I chose by country name, then filled in the colours according to the calories provided by animal protein to create (Figure\@ref(fig:fig-2)). The closer the color is to green, the more calories from animal protein, and conversely the closer the color is to blue the less there is. Overall, the amount of calories from animal protein has increased worldwide.
+
+
+# Reference
+Observing the (Figure\@ref(fig:fig-2)) we can find that people living in North America, Oceania, and Europe consume more animal protein to provide calories, simply put, their diet composition prefers meat products, but also from the side to reflect the continued high consumption of livestock products in almost all developed countries  @stoll2015sustainability.
+
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # data wrangling
 by_country <- overweight_calories %>% 
@@ -199,3 +207,8 @@ knitr::kable(Table1, booktabs = TRUE, "html",
              caption = "Goodness_of_fit_measures") %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
+
+
+
+
+
