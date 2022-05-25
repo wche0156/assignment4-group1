@@ -1,6 +1,7 @@
 ---
 title: "research"
 output: html_document
+bibliography: references.bib 
 date: '2022-05-20'
 ---
 
@@ -82,7 +83,11 @@ anim_save("figure1.gif")
 
 
 # Data Explanation
+According to (Figure\@ref(fig:fig-1)), we can see the different colours represent different food groups and the larger the area, the greater the proportion of the Australian diet. It is clear that they prefer cereals and grains, meat, fats and sugary foods to pulses and starchy roots.
 
+
+# Reference
+According to the Australian government's dietary guidelines, these unhealthy diets have led to many Australian adults and about a quarter of children being overweight or obese, so it's time to make changes for the sake of our health @grech2018macronutrient.
 
 
 ```{r fig-2, echo = FALSE, message = FALSE, warning = FALSE, out.width = '75%', fig.align = "center", fig.width = 8, fig.cap ="Year: {closest_state}"}
