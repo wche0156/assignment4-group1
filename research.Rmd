@@ -51,14 +51,16 @@ dietary_compositions <- dietary_compositions %>%
 ```
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r fig-1, echo = FALSE, message = FALSE, warning = FALSE, out.width = '75%', fig.align = "center", fig.width = 8, fig.cap ="Kilocalories per Person per Day in Australia"}
 # data figure1
 figure1 <- dietary_compositions %>% 
   filter(Entity == 'Australia') %>% 
   pivot_longer(cols = -c(Entity,Year),
                names_to = 'Variable',
                values_to = 'Value') %>% 
-  ggplot(aes(x = Year, y = Value, fill = Variable)) +
+  ggplot(aes(x = Year,
+             y = Value,
+             fill = Variable)) +
   geom_area(color = 'white') +
   scale_fill_viridis_d() +
   labs(y = 'Kilocalories per Person per Day',
@@ -79,7 +81,11 @@ anim_save("figure1.gif")
 ```
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Data Explanation
+
+
+
+```{r fig-2, echo = FALSE, message = FALSE, warning = FALSE, out.width = '75%', fig.align = "center", fig.width = 8, fig.cap ="Year: {closest_state}"}
 # read world map data
 world <- readOGR(dsn = 'World_Countries_(Generalized)/.')
 world_shp <- world %>% 
@@ -87,8 +93,8 @@ world_shp <- world %>%
 world_data <- daily_caloric_supply %>%
   select(Entity, Year, `Calories from animal protein `) %>%
   merge(world_shp,
-        by.x = 'Entity',
-        by.y = 'COUNTRY') %>% 
+        by.x = "Entity",
+        by.y = "COUNTRY") %>% 
   st_as_sf()
 
 # data figure2
@@ -97,7 +103,7 @@ figure2 = world_data %>%
   geom_sf(colour = NA) +
   labs(x = 'Longitude',
        y = 'Latitude',
-       title = 'Year: {closest_state}') +
+       title = '  Year: {closest_state}') +
   scale_fill_viridis_c(na.value = 'grey') +
   theme_void() +
   theme(legend.position = 'bottom') +
@@ -106,13 +112,12 @@ figure2
 animate(figure2,
         res = 300,
         width = 2000,
-        height = 1125,
-        renderer = gifski_renderer())
+        height = 1125)
 anim_save('figure2.gif')
 ```
 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # data wrangling
 by_country <- overweight_calories %>% 
   rename('caloric_supply' = 'Daily caloric supply (OWID based on UN FAO & historical sources)',
@@ -128,14 +133,27 @@ by_country <- overweight_calories %>%
 ```
 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # linear models
 fit_lm <- function(x){
   lm(Overweight~caloric_supply, data = x)
 }
 mapped_lm <- map(by_country$data, fit_lm)
+```
 
 
+```{r, residuals plots}
+library(ggResidpanel)
+resid_panel(mapped_lm[[1]], plots = "all")
+resid_panel(mapped_lm[[2]], plots = "all")
+resid_panel(mapped_lm[[3]], plots = "all")
+resid_panel(mapped_lm[[4]], plots = "all")
+resid_panel(mapped_lm[[5]], plots = "all")
+resid_panel(mapped_lm[[6]], plots = "all")
+```
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Intercept and Slope
 rbind(coef(mapped_lm[[1]]),
       coef(mapped_lm[[2]]),
@@ -152,7 +170,7 @@ rbind(coef(mapped_lm[[1]]),
 ```
 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(data.table)
 Australia_lm_summary <- glance(mapped_lm[[1]])
 Brazil_lm_summary <- glance(mapped_lm[[2]])
@@ -164,11 +182,15 @@ United_States_lm_summary <- glance(mapped_lm[[6]])
 summary <- list(Australia_lm_summary, Brazil_lm_summary, China_lm_summary, 
                 South_Africa_lm_summary, United_Kingdom_lm_summary, United_States_lm_summary) %>%
   rbindlist(use.names = TRUE) %>%
-  round(2) %>%
   mutate(Country = c("Australia", "Brazil", "China",
-                     "South_Africa", "United_Kingdom", "United States"))
-summary
+                     "South_Africa", "United_Kingdom", "United States")) %>%
+  select(Country, r.squared, AIC, BIC) 
 ```
 
 
-
+```{r table, echo = FALSE, message = FALSE, warning = FALSE}
+Table1 = summary
+knitr::kable(Table1, booktabs = TRUE, "html",
+             caption = "Goodness_of_fit_measures") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
