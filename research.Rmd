@@ -103,7 +103,7 @@ world_data <- daily_caloric_supply %>%
   st_as_sf()
 
 # data figure2
-figure2 = world_data %>%
+figure2 <- world_data %>%
   ggplot(aes(fill = `Calories from animal protein `)) +
   geom_sf(colour = NA) +
   labs(x = 'Longitude',
@@ -132,7 +132,7 @@ Observing the (Figure\@ref(fig:fig-2)) we can find that people living in North A
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # data wrangling
-by_country <- overweight_calories %>% 
+by_entity <- overweight_calories %>% 
   rename('caloric_supply' = 'Daily caloric supply (OWID based on UN FAO & historical sources)',
          'Overweight' = 'Overweight or Obese (NCDRisC (2017))') %>% 
   select(Entity, Year, caloric_supply, Overweight) %>%
@@ -140,75 +140,84 @@ by_country <- overweight_calories %>%
                        "United States", "United Kingdom",
                        "South Africa", "Brazil"),
          Year >= 2000) %>%
-  drop_na() %>%
-  group_by(Entity)%>%
-  nest()
+  drop_na()
 ```
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # linear models
+by_entity2 <- by_entity %>%
+  group_by(Entity)%>%
+  nest()
+
 fit_lm <- function(x){
   lm(Overweight~caloric_supply, data = x)
 }
-mapped_lm <- map(by_country$data, fit_lm)
+mapped_lm <- map(by_entity$data, fit_lm)
 ```
 
 
-```{r, residuals plots}
-library(ggResidpanel)
-resid_panel(mapped_lm[[1]], plots = "all")
-resid_panel(mapped_lm[[2]], plots = "all")
-resid_panel(mapped_lm[[3]], plots = "all")
-resid_panel(mapped_lm[[4]], plots = "all")
-resid_panel(mapped_lm[[5]], plots = "all")
-resid_panel(mapped_lm[[6]], plots = "all")
+```{r show-good-fit}
+ggplot(data = by_entity,
+       aes(x = caloric_supply, 
+           y = Overweight)) + 
+         geom_point(alpha = 0.4) +
+  facet_wrap(~Entity, scales = "free") +
+  geom_smooth(method = "lm")
 ```
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-# Intercept and Slope
-rbind(coef(mapped_lm[[1]]),
-      coef(mapped_lm[[2]]),
-      coef(mapped_lm[[3]]),
-      coef(mapped_lm[[4]]),
-      coef(mapped_lm[[5]]),
-      coef(mapped_lm[[6]])) %>%
-  as.data.frame() %>%
-  mutate(Country = c("Australia", "Brazil", "China", 
-                     "South Africa", "United Kingdom", "United States")) %>%
-  rename(Intercept = "(Intercept)",
-         Slope = "caloric_supply") %>%
-  select(Country, Intercept, Slope)
+```{r}
+entity_model <- by_entity2 %>% 
+                    mutate(model = map(data, function(x){
+                      lm(Overweight~caloric_supply, data = x)
+                      })
+                      )
+
+entity_model %>%
+  mutate(tidy = map(model, tidy))
 ```
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-library(data.table)
-Australia_lm_summary <- glance(mapped_lm[[1]])
-Brazil_lm_summary <- glance(mapped_lm[[2]])
-China_lm_summary <- glance(mapped_lm[[3]])
-South_Africa_lm_summary <- glance(mapped_lm[[4]])
-United_Kingdom_lm_summary <- glance(mapped_lm[[5]])
-United_States_lm_summary <- glance(mapped_lm[[6]])
+```{r map-tidy-model, echo = FALSE, message = FALSE, warning = FALSE}
+entity_coefs <- entity_model %>%
+                    mutate(tidy = map(model, tidy)) %>%
+                    unnest(tidy) %>%
+                    select(Entity, term, estimate)
+```
 
-summary <- list(Australia_lm_summary, Brazil_lm_summary, China_lm_summary, 
-                South_Africa_lm_summary, United_Kingdom_lm_summary, United_States_lm_summary) %>%
-  rbindlist(use.names = TRUE) %>%
-  mutate(Country = c("Australia", "Brazil", "China",
-                     "South_Africa", "United_Kingdom", "United States")) %>%
-  select(Country, r.squared, AIC, BIC) 
+
+```{r tidy-unnested-coefs, echo = FALSE, message = FALSE, warning = FALSE}
+tidy_entity_coefs <- entity_coefs %>%
+                          pivot_wider(id_cols = c(Entity), 
+                                      names_from =  term,
+                                      values_from = estimate) %>%
+                          rename(Intercept = `(Intercept)`,
+                                 Slope = caloric_supply)
+```
+
+
+```{r glance-country}
+entity_glance <- entity_model %>% 
+  mutate(glance = map(model, glance)) %>%
+  unnest(glance) %>%
+  select(Entity, r.squared, AIC, BIC)
 ```
 
 
 ```{r table, echo = FALSE, message = FALSE, warning = FALSE}
-Table1 = summary
+Table1 = entity_glance
 knitr::kable(Table1, booktabs = TRUE, "html",
              caption = "Goodness_of_fit_measures") %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
 
+# Data Explanation
+Figure \@ref(fig:show-good-fit) shows that the Chinese fitted linear model is the best, while, according to (Table\@ref(tab:table-1)), we can find that Chinese linear model has a maximum r.squared value around 0.97 and there are relatively small AIC and BIC values of around 46.42 and 48.55 respectively. Therefore, we can find that Chinese people's overweight or obese are more affected by calorie intake.
 
+
+# Referencing
+R-squared is the percentage of outcome variable variation explained by the model, and describes how close the data are to the fitted regression. In general, the higher the R-squared value, the better the model fits. AIC and BIC both aim at achieving a compromise between model goodness of fit and model complexity. The preferred models are those with minimum AIC/BIC(@yang2015model). 
 
 
