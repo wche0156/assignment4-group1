@@ -1,5 +1,7 @@
 ---
+
 title: "Analysis on Japan&United State"
+author: "Wanxin Chen"
 output: html_document
 date: '2022-05-20'
 ---
@@ -176,6 +178,54 @@ plot_Calories_Intake
 ```
 
 
+```{r libraries, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readr)
+library(kableExtra)
+```
+
+# Research questions
+Rice consumption vs. latitude and region, 2015
+
+
+# Data
+```{r read_data, message=FALSE, warning=FALSE}
+Assignment4_data <- read_csv("Data/rice-consumption-vs-latitude.csv")
+data_tidy <- Assignment4_data %>%
+  filter(Year == 2015)%>%
+  rename(`Rice consumption(kg/capita/yr)` = `Rice (Milled Equivalent) - Food supply quantity (kg/capita/yr)`) %>%
+  rename(Latitude = `Latitude - lp_lat_abst`)
+
+data_tidy <- data_tidy %>% drop_na(`Rice consumption(kg/capita/yr)`) %>% drop_na(Latitude)
+```
+
+
+# Analysis
+```{r table-1}
+
+knitr::kable(
+  head(arrange(data_tidy,desc(`Rice consumption(kg/capita/yr)`)),10), caption = 'Top 10 countries with the highest annual per capita consumption of rice in 2015',
+  booktabs = TRUE,digits = 2
+) %>%
+kable_styling(latex_options = c("striped", "hold_position"))
+```
+
+
+```{r fig-1, fig.align = "center", fig.width = 7}
+ggplot(data = data_tidy, 
+aes(x = Latitude,
+    y = `Rice consumption(kg/capita/yr)`)) +
+ geom_point(aes(colour = Continent)) +
+ geom_point(data = data_tidy,
+ size = 2,
+ shape = 1)+
+  theme_bw()+
+  ggtitle("Distribution of countries in different geographic regions in terms of Latitude")
+
+```
+Table 1 ranks all the Annual per capita consumption of rice in different countries in 2015 in descending order, while Figure 1 plots the distribution by Latitude and the geographical region to which the country belongs.
+
+According to Table 1, the top 5 countries with the largest rice consumption are Bangladesh, Laos, Cambodia, Vietnam,In combination with Figure 1, it is easy to notice the phenomenon that the countries with higher Annual per capita consumption of rice are mainly in the Latitude between0 and 0.4. Also, when looking at the color of the points, it can be seen that the points representing higher rice consumption represent the map areas of Africa and Asia.
 
 
 Figure\@ref(fig:Calories-Intake-of-over-the-years) shows the trend of total calories intake in the United States and Japan over time.
@@ -210,5 +260,4 @@ From the Figure\@ref(fig:Fat-Calories-Intake-of-over-the-years), we can find tha
 # Conclusion
 
 All in all, with the development of society and the progress of economy, how to maintain a healthy eating habit has become an increasingly important issue @1992Calories. In addition to paying attention to the total calorie intake of the diet, people also need to pay attention to the energy supply ratio of the three major nutrients, protein, fat and carbohydrates. Reasonable arrangement of the proportion of nutrients can help us maintain a healthier body and prolong our energy consumption. longevity and reduce the incidence of disease @1990Changing.
-
 
