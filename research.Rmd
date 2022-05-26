@@ -13,11 +13,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r libraries}
+```{r libraries, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(readr)
 library(kableExtra)
-library(bookdown)
 ```
 
 # Research questions
@@ -25,7 +24,7 @@ Rice consumption vs. latitude and region, 2015
 
 
 # Data
-```{r read_data, echo = FALSE}
+```{r read_data, message=FALSE, warning=FALSE}
 Assignment4_data <- read_csv("Data/rice-consumption-vs-latitude.csv")
 data_tidy <- Assignment4_data %>%
   filter(Year == 2015)%>%
@@ -40,14 +39,14 @@ data_tidy <- data_tidy %>% drop_na(`Rice consumption(kg/capita/yr)`) %>% drop_na
 ```{r table-1}
 
 knitr::kable(
-  head(arrange(data_tidy,desc(`Rice consumption(kg/capita/yr)`)),20), caption = 'Top 10 countries with the highest annual per capita consumption of rice in 2015',
+  head(arrange(data_tidy,desc(`Rice consumption(kg/capita/yr)`)),10), caption = 'Top 10 countries with the highest annual per capita consumption of rice in 2015',
   booktabs = TRUE,digits = 2
 ) %>%
 kable_styling(latex_options = c("striped", "hold_position"))
 ```
 
 
-```{r fig-1, echo = FALSE, fig.align = "center", fig.width = 7}
+```{r fig-1, fig.align = "center", fig.width = 7}
 ggplot(data = data_tidy, 
 aes(x = Latitude,
     y = `Rice consumption(kg/capita/yr)`)) +
