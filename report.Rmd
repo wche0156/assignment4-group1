@@ -70,7 +70,7 @@ dietary_compositions <- dietary_compositions %>%
 
 
 
-# Research Question1
+## Research Question1
 How the proportion of various food groups in the Australian diet changed over time?
 
 
@@ -104,11 +104,11 @@ anim_save("figure1.gif")
 ```
 
 
-# Data Explanation
+## Data Explanation
 According to Figure\@ref(fig:diet-composition), we can see the different colours represent different food groups and the larger the area, the greater the proportion of the Australian diet. It is clear that they prefer cereals and grains, meat, fats and sugary foods to pulses and starchy roots.
 
 
-# Research Question2
+## Research Question2
 How the calories from animal protein varies around the world?
 
 
@@ -144,15 +144,15 @@ anim_save('figure2.gif')
 ```
 
 
-# Data Explanation
+## Data Explanation
 To better represent the variation in calories provided by animal protein around the world, I first downloaded data from a world map online, then matched it to the dataset I chose by country name, then filled in the colours according to the calories provided by animal protein to create Figure\@ref(fig:worldmap). The closer the color is to green, the more calories from animal protein, and conversely the closer the color is to blue the less there is. Overall, the amount of calories from animal protein has increased worldwide.
 
 
-# Reference
+## Reference
 Observing the Figure\@ref(fig:worldmap) we can find that people living in North America, Oceania, and Europe consume more animal protein to provide calories, simply put, their diet composition prefers meat products, but also from the side to reflect the continued high consumption of livestock products in almost all developed countries  @stoll2015sustainability.
 
 
-# Research Question3
+## Research Question3
 In Australia, Brazil, China, South Africa, United Kingdom and United States, which country has the relatively best linear model of the relationship between overweight or obese and caloric supply since 2000?
 
 
@@ -242,11 +242,11 @@ knitr::kable(Table1, booktabs = TRUE, "html",
 
 
 
-# Data Explanation
+## Data Explanation
 The scatter plot shows that the Chinese fitted linear model is the best, while, according to Table\@ref(tab:goodness-fit-measures), we can find that Chinese linear model has a maximum r.squared value around 0.97 and there are relatively small AIC and BIC values of around 46.42 and 48.55 respectively. Therefore, we can find that Chinese people's overweight or obese are more affected by calorie intake.
 
 
-# Reference
+## Reference
 R-squared is the percentage of outcome variable variation explained by the model, and describes how close the data are to the fitted regression. In general, the higher the R-squared value, the better the model fits. AIC and BIC both aim at achieving a compromise between model goodness of fit and model complexity. The preferred models are those with minimum AIC/BIC (@yang2015model).
 
 
@@ -258,7 +258,7 @@ dietary_csv <- read.csv("Data/dietary-composition-by-country.csv")
 ```
 
 
-# Research Question1
+## Research Question1
 How much FAO i.e. Fats Animal Oil is in Vegetable Oil in Australia that is consumed by people in different year?
 
 
@@ -274,7 +274,7 @@ arrange(selection ,desc(Vegetable.Oils..FAO..2017..))
 
 
 
-# Research Question2
+## Research Question2
 Comparing the FAO in maize, rice and wheat over the years in single figure to see that they all decreased, increased or differs?
 
 
@@ -305,7 +305,7 @@ ggarrange(maize_plot, rice_plot, wheat_plot)
 ```
 
 
-# Research Question3
+## Research Question3
 Distribution of FAO in Animal Fat and Vegetable Oil against the averages and skewness.
 
 
@@ -325,7 +325,7 @@ b$stats
 ```
 
 
-# Research Question4
+## Research Question4
 Finding the relation between two variables i.e. Year and FAO in Animal Fat.
 
 
@@ -342,7 +342,7 @@ ggplot(dietary_lm) +
 ```
 
 
-Conclusion:
+## Conclusion:
 
  - Maize and Rice FAO is higher in later years but the wheat growth becomes less in later years in Australia.
  
@@ -406,7 +406,7 @@ mydata_long <- mydata %>%
 ```
 
 
-# Research Question1
+## Research Question1
 
 What is the difference in the proportions of total Calories and the three major nutrients (protein, fat, carbohydrate) from 1970 in the American and Japanese diets?
 
@@ -428,8 +428,8 @@ mydata_long %>% ggplot() +
 ```
 
 
-# Data Explanation
-Figure\@ref(fig:Proportion) and Table\@ref(tab:Proportions-of-the-Nutrients-Comparision) show that from 1961 to 2010, the share of per capita calorie intake in the United States and Japan did not change much, with the United States consistently having slightly higher calorie intake than Japan. From the perspective of the proportion of the three major nutrients of protein, fat and carbohydrates, the intake of fat in the American people's diet is much higher than that of the Japanese, and the intake of carbohydrates in the daily diet of the Japanese is higher than that of the United States. people. For protein intake, Americans and Japanese intakes are not much different.
+## Data Explanation
+The figure and table show that from 1961 to 2010, the share of per capita calorie intake in the United States and Japan did not change much, with the United States consistently having slightly higher calorie intake than Japan. From the perspective of the proportion of the three major nutrients of protein, fat and carbohydrates, the intake of fat in the American people's diet is much higher than that of the Japanese, and the intake of carbohydrates in the daily diet of the Japanese is higher than that of the United States. people. For protein intake, Americans and Japanese intakes are not much different.
 
 
 ```{r Distribution-of-Protein-Fat-Carbohydrates-boxplot, fig.cap="Distribution of Protein,Fat,Carbohydrates",echo = FALSE, message = FALSE, warning = FALSE, fig.pos = "H" }
@@ -443,11 +443,11 @@ p1+p2+p3
 ```
 
 
-# Data Explanation
+## Data Explanation
 Figure\@ref(fig:Distribution-of-Protein-Fat-Carbohydrates-boxplot) shows that in terms of diet, the difference in the proportion of protein calories consumed in Japan and the United States is not large, and the values are both around 12%. The proportion of fat and carbohydrates in the calorie intake in Japan and the United States is quite different. The proportion of fat in the Japanese diet is mostly between 20% and 28%, while the proportion of fat in the American diet is between 36% and 38%. between. Carbohydrates, on the other hand, are mostly between 60% and 68% carbohydrates in the Japanese diet, compared to 50% to 52% in the American diet.
 
 
-# Research Question2
+## Research Question2
 What is the difference between the time trends of TotalCalories and Calories of Protein, Fat, Carbohydrates in the two countries?
 
 
@@ -474,7 +474,7 @@ summary_Japan
 ```
 
 
-# Data Explanation
+## Data Explanation
 It can be seen from Table\@ref(tab:Calories-Intake-of-United-States), that the mean Calories of United States is 3354 kcal while Table\@ref(tab:Calories-Intake-of-Japan) shows Japan's mean Calories is 2800.In addition, we can observe that the average carbohydrate intake of the Japanese and American diets is almost the same in terms of the average calorie intake of the three nutrients, but the fat intake of the American diet is significantly higher than that of the Japanese diet.
 
 
@@ -494,7 +494,7 @@ plot_Calories_Intake
 
 
 
-# Data Explanation
+## Data Explanation
 Figure\@ref(fig:Calories-Intake-of-over-the-years) shows the trend of total calories intake in the United States and Japan over time. From the point of total dietary calorie intake, Figure\@ref(fig:Calories-Intake-of-over-the-years) shows that dietary calorie intake in Japan first increased over the past 50 years and then gradually decreased after reaching a peak around 1995. In the United States, diets continued to increase until they began to decrease after 2000. The calorie intake gap between the two countries first decreased and then gradually increased.
 
 
@@ -514,13 +514,13 @@ plot_Fat_Calories_Intake
 
 
 
-# Data Explanation
+## Data Explanation
 Figure\@ref(fig:Fat-Calories-Intake-of-over-the-years) shows the trend of fat calories intake in the United States and Japan over time. From the Figure\@ref(fig:Fat-Calories-Intake-of-over-the-years), we can find that the intake of fat in the diet of Japan and the United States shows a trend of increasing year by year, and the gap between the two countries has changed very little in the past 50 years, and it can be seen as almost no change.
 
 
 # Analysis4
 
-# Research Question
+## Research Question
 Rice consumption vs. latitude and region, 2015
 
 
@@ -559,7 +559,7 @@ aes(x = Latitude,
 ```
 
 
-# Data Explanation
+## Data Explanation
 Table 1 ranks all the Annual per capita consumption of rice in different countries in 2015 in descending order, while Figure 1 plots the distribution by Latitude and the geographical region to which the country belongs. According to Table 1, the top 5 countries with the largest rice consumption are Bangladesh, Laos, Cambodia, Vietnam,In combination with Figure 1, it is easy to notice the phenomenon that the countries with higher Annual per capita consumption of rice are mainly in the Latitude between0 and 0.4. Also, when looking at the color of the points, it can be seen that the points representing higher rice consumption represent the map areas of Africa and Asia.
 
 
@@ -568,5 +568,6 @@ According to the Australian government's dietary guidelines, these unhealthy die
 
 All in all, with the development of society and the progress of economy, how to maintain a healthy eating habit has become an increasingly important issue @1992Calories. In addition to paying attention to the total calorie intake of the diet, people also need to pay attention to the energy supply ratio of the three major nutrients, protein, fat and carbohydrates. Reasonable arrangement of the proportion of nutrients can help us maintain a healthier body and prolong our energy consumption. longevity and reduce the incidence of disease @1990Changing.
 
+# Reference
 
 
