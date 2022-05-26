@@ -1,6 +1,9 @@
 ---
 title: "research"
-output: html_document
+output: 
+  bookdown::html_document2: default
+  bookdown::pdf_document2: default
+keep_md: true 
 bibliography: references.bib 
 date: '2022-05-20'
 ---
@@ -15,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE}
 # Libraries
 library(tidyverse)
 library(readr)
@@ -32,7 +35,7 @@ library(transformr)
 
 # Analysis
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE}
 # read data
 daily_caloric_supply <- read_csv("Data/daily-caloric-supply-derived-from-carbohydrates-protein-and-fat.csv")
 dietary_compositions <- read_csv("Data/dietary-compositions-by-commodity-group.csv")
@@ -40,7 +43,7 @@ overweight_calories <- read_csv("Data/share-of-adult-men-overweight-or-obese-vs-
 ```
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE}
 # data wrangling
 daily_caloric_supply <- daily_caloric_supply %>%
   rename_all(str_remove, pattern = "\\(FAO.+\\)") %>%
@@ -52,7 +55,7 @@ dietary_compositions <- dietary_compositions %>%
 ```
 
 
-```{r fig-1, echo = FALSE, message = FALSE, warning = FALSE, out.width = '75%', fig.align = "center", fig.width = 8, fig.cap ="Kilocalories per Person per Day in Australia"}
+```{r diet-composition, message = FALSE, warning = FALSE, out.width = '75%', fig.align = "center", fig.width = 8, fig.cap ="Kilocalories per Person per Day in Australia"}
 # data figure1
 figure1 <- dietary_compositions %>% 
   filter(Entity == 'Australia') %>% 
@@ -83,14 +86,14 @@ anim_save("figure1.gif")
 
 
 # Data Explanation
-According to (Figure\@ref(fig:fig-1)), we can see the different colours represent different food groups and the larger the area, the greater the proportion of the Australian diet. It is clear that they prefer cereals and grains, meat, fats and sugary foods to pulses and starchy roots.
+According to Figure\@ref(fig:diet-composition), we can see the different colours represent different food groups and the larger the area, the greater the proportion of the Australian diet. It is clear that they prefer cereals and grains, meat, fats and sugary foods to pulses and starchy roots.
 
 
 # Reference
 According to the Australian government's dietary guidelines, these unhealthy diets have led to many Australian adults and about a quarter of children being overweight or obese, so it's time to make changes for the sake of our health @grech2018macronutrient.
 
 
-```{r fig-2, echo = FALSE, message = FALSE, warning = FALSE, out.width = '75%', fig.align = "center", fig.width = 8, fig.cap ="Year: {closest_state}"}
+```{r worldmap, message = FALSE, warning = FALSE, out.width = '75%', fig.align = "center", fig.width = 8, fig.cap ="Year: {closest_state}"}
 # read world map data
 world <- readOGR(dsn = 'World_Countries_(Generalized)/.')
 world_shp <- world %>% 
@@ -123,14 +126,14 @@ anim_save('figure2.gif')
 
 
 # Data Explanation
-To better represent the variation in calories provided by animal protein around the world, I first downloaded data from a world map online, then matched it to the dataset I chose by country name, then filled in the colours according to the calories provided by animal protein to create (Figure\@ref(fig:fig-2)). The closer the color is to green, the more calories from animal protein, and conversely the closer the color is to blue the less there is. Overall, the amount of calories from animal protein has increased worldwide.
+To better represent the variation in calories provided by animal protein around the world, I first downloaded data from a world map online, then matched it to the dataset I chose by country name, then filled in the colours according to the calories provided by animal protein to create Figure\@ref(fig:worldmap). The closer the color is to green, the more calories from animal protein, and conversely the closer the color is to blue the less there is. Overall, the amount of calories from animal protein has increased worldwide.
 
 
 # Reference
-Observing the (Figure\@ref(fig:fig-2)) we can find that people living in North America, Oceania, and Europe consume more animal protein to provide calories, simply put, their diet composition prefers meat products, but also from the side to reflect the continued high consumption of livestock products in almost all developed countries  @stoll2015sustainability.
+Observing the Figure\@ref(fig:worldmap) we can find that people living in North America, Oceania, and Europe consume more animal protein to provide calories, simply put, their diet composition prefers meat products, but also from the side to reflect the continued high consumption of livestock products in almost all developed countries  @stoll2015sustainability.
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE}
 # data wrangling
 by_entity <- overweight_calories %>% 
   rename('caloric_supply' = 'Daily caloric supply (OWID based on UN FAO & historical sources)',
@@ -144,7 +147,7 @@ by_entity <- overweight_calories %>%
 ```
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE}
 # linear models
 by_entity2 <- by_entity %>%
   group_by(Entity)%>%
@@ -157,17 +160,19 @@ mapped_lm <- map(by_entity$data, fit_lm)
 ```
 
 
-```{r show-good-fit}
-ggplot(data = by_entity,
+```{r entity-plot, message = FALSE, warning = FALSE}
+scatter_plot <-
+  ggplot(data = by_entity,
        aes(x = caloric_supply, 
            y = Overweight)) + 
          geom_point(alpha = 0.4) +
   facet_wrap(~Entity, scales = "free") +
   geom_smooth(method = "lm")
+scatter_plot
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 entity_model <- by_entity2 %>% 
                     mutate(model = map(data, function(x){
                       lm(Overweight~caloric_supply, data = x)
@@ -179,7 +184,7 @@ entity_model %>%
 ```
 
 
-```{r map-tidy-model, echo = FALSE, message = FALSE, warning = FALSE}
+```{r map-tidy-model, message = FALSE, warning = FALSE}
 entity_coefs <- entity_model %>%
                     mutate(tidy = map(model, tidy)) %>%
                     unnest(tidy) %>%
@@ -187,7 +192,7 @@ entity_coefs <- entity_model %>%
 ```
 
 
-```{r tidy-unnested-coefs, echo = FALSE, message = FALSE, warning = FALSE}
+```{r tidy-unnested-coefs, message = FALSE, warning = FALSE}
 tidy_entity_coefs <- entity_coefs %>%
                           pivot_wider(id_cols = c(Entity), 
                                       names_from =  term,
@@ -197,7 +202,7 @@ tidy_entity_coefs <- entity_coefs %>%
 ```
 
 
-```{r glance-country}
+```{r glance-country, message = FALSE, warning = FALSE}
 entity_glance <- entity_model %>% 
   mutate(glance = map(model, glance)) %>%
   unnest(glance) %>%
@@ -205,7 +210,7 @@ entity_glance <- entity_model %>%
 ```
 
 
-```{r table, echo = FALSE, message = FALSE, warning = FALSE}
+```{r goodness-fit-measures, message = FALSE, warning = FALSE}
 Table1 = entity_glance
 knitr::kable(Table1, booktabs = TRUE, "html",
              caption = "Goodness_of_fit_measures") %>%
@@ -214,10 +219,8 @@ knitr::kable(Table1, booktabs = TRUE, "html",
 
 
 # Data Explanation
-Figure \@ref(fig:show-good-fit) shows that the Chinese fitted linear model is the best, while, according to (Table\@ref(tab:table-1)), we can find that Chinese linear model has a maximum r.squared value around 0.97 and there are relatively small AIC and BIC values of around 46.42 and 48.55 respectively. Therefore, we can find that Chinese people's overweight or obese are more affected by calorie intake.
+The scatter plot shows that the Chinese fitted linear model is the best, while, according to Table\@ref(tab:goodness-fit-measures), we can find that Chinese linear model has a maximum r.squared value around 0.97 and there are relatively small AIC and BIC values of around 46.42 and 48.55 respectively. Therefore, we can find that Chinese people's overweight or obese are more affected by calorie intake.
 
 
-# Referencing
-R-squared is the percentage of outcome variable variation explained by the model, and describes how close the data are to the fitted regression. In general, the higher the R-squared value, the better the model fits. AIC and BIC both aim at achieving a compromise between model goodness of fit and model complexity. The preferred models are those with minimum AIC/BIC(@yang2015model). 
-
-
+# Reference
+R-squared is the percentage of outcome variable variation explained by the model, and describes how close the data are to the fitted regression. In general, the higher the R-squared value, the better the model fits. AIC and BIC both aim at achieving a compromise between model goodness of fit and model complexity. The preferred models are those with minimum AIC/BIC (@yang2015model).
