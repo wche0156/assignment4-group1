@@ -1,0 +1,108 @@
+---
+title: "research"
+output: html_document
+date: '2022-05-20'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+# loading libraries
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+```
+Introduction:
+ Analyzing different food items FAO concentration in Australia and at different period of time. So that we can see whether people are shifting towards being health conscious or are they taking a healthy and balanced diet or not? Because taking all the nutrients in a right amount is all necessary.
+
+```{r}
+# reading csv file
+dietary_csv <- read.csv("Data/dietary-composition-by-country.csv")
+```
+
+
+# Research Question 1
+
+How much FAO i.e. Fats Animal Oil is in Vegetable Oil in Australia that is consumed by people in different year?
+```{r}
+# filter the data
+country_vege_oils <- dietary_csv %>%
+  filter(Entity == "Australia")
+# selecting particular columns
+selection <- country_vege_oils %>% select(Year, Vegetable.Oils..FAO..2017..) 
+
+# arranging in descending order based on Vegetable oil FAO
+arrange(selection ,desc(Vegetable.Oils..FAO..2017..))
+```
+
+
+# Research Question 2.
+
+Comparing the FAO in maize, rice and wheat over the years in single figure to see that they all decreased, increased or differs?
+```{r}
+# plotting Maize FAO on different years
+maize_plot <- ggplot(country_vege_oils, aes(x = Year, y = Maize..FAO..2017..)) +
+  geom_line()
+```
+
+```{r}
+# plotting Rice FAO on different years
+rice_plot <- ggplot(country_vege_oils, aes(x = Year, y = Rice..FAO..2017..)) +
+  geom_line()
+```
+
+```{r}
+# plotting Wheat FAO on different years
+wheat_plot <- ggplot(country_vege_oils, aes(x = Year, y = Wheat..FAO..2017..)) +
+  geom_line()
+```
+
+```{r}
+# joining three plots as one figure
+ggarrange(maize_plot, rice_plot, wheat_plot)
+```
+
+
+# Research Question 3
+
+Distribution of FAO in Animal Fat and Vegetable Oil against the averages and skewness
+
+```{r}
+b <- boxplot(dietary_csv$Animal.fats..FAO..2017..,
+        main = "Average FAO in Animal Fat",
+        xlab = "Average FAO",
+        ylab = "Animal Fat",
+        col = "red",
+        horizontal = TRUE,
+        notch = TRUE)
+```
+
+```{r}
+b$stats
+```
+
+# Research Question 4
+
+Finding the relation between two variables i.e. Year and FAO in Animal Fat
+```{r}
+dietary_lm <- lm(Year ~ Animal.fats..FAO..2017..,
+              data = dietary_csv)
+
+summary(dietary_lm)
+```
+```{r}
+ggplot(dietary_lm) +
+  geom_smooth(aes(x=Year, y=Animal.fats..FAO..2017..))
+```
+
+
+Conclusion:
+
+ - Maize and Rice FAO is higher in later years but the wheat growth becomes less in later years in Australia.
+ 
+ - Same as maize and rice, Vegetable FAO is growing in later years in Australia.
+ 
+ - There is no particular relation between year and Animal Fat because of different countries but it says that animal fat increases with the increase in year but gets low as well in some countries. So its fluctuating.
