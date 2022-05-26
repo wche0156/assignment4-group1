@@ -18,8 +18,6 @@ library(tidyverse)
 library(readr)
 library(kableExtra)
 library(bookdown)
-library(tinytex)
-library(rgdal)
 ```
 
 # Research questions
@@ -42,21 +40,23 @@ data_tidy <- data_tidy %>% drop_na(`Rice consumption(kg/capita/yr)`) %>% drop_na
 ```{r table-1}
 
 knitr::kable(
-  head(arrange(data_tidy,desc(`Rice consumption(kg/capita/yr)`)),20), caption = 'Rice consumption',
+  head(arrange(data_tidy,desc(`Rice consumption(kg/capita/yr)`)),20), caption = 'Top 10 countries with the highest annual per capita consumption of rice in 2015',
   booktabs = TRUE,digits = 2
 ) %>%
 kable_styling(latex_options = c("striped", "hold_position"))
 ```
 
 
-```{r fig-1, echo = FALSE, fig.align = "center", fig.width = 7, fig.cap ="Annual per capita consumption of rice in different countries"}
+```{r fig-1, echo = FALSE, fig.align = "center", fig.width = 7}
 ggplot(data = data_tidy, 
 aes(x = Latitude,
     y = `Rice consumption(kg/capita/yr)`)) +
  geom_point(aes(colour = Continent)) +
  geom_point(data = data_tidy,
  size = 2,
- shape = 1)+theme_bw()
+ shape = 1)+
+  theme_bw()+
+  ggtitle("Distribution of countries in different geographic regions in terms of Latitude")
 
 ```
 Table 1 ranks all the Annual per capita consumption of rice in different countries in 2015 in descending order, while Figure 1 plots the distribution by Latitude and the geographical region to which the country belongs.
