@@ -342,13 +342,8 @@ ggplot(dietary_lm) +
 ```
 
 
-## Conclusion:
-
- - Maize and Rice FAO is higher in later years but the wheat growth becomes less in later years in Australia.
- 
- - Same as maize and rice, Vegetable FAO is growing in later years in Australia.
- 
- - There is no particular relation between year and Animal Fat because of different countries but it says that animal fat increases with the increase in year but gets low as well in some countries. So its fluctuating.
+## Data Explanation
+Maize and Rice FAO is higher in later years but the wheat growth becomes less in later years in Australia. Same as maize and rice, Vegetable FAO is growing in later years in Australia. There is no particular relation between year and Animal Fat because of different countries but it says that animal fat increases with the increase in year but gets low as well in some countries. So its fluctuating.
 
 
 # Analysis3
@@ -493,7 +488,6 @@ plot_Calories_Intake
 ```
 
 
-
 ## Data Explanation
 Figure\@ref(fig:Calories-Intake-of-over-the-years) shows the trend of total calories intake in the United States and Japan over time. From the point of total dietary calorie intake, Figure\@ref(fig:Calories-Intake-of-over-the-years) shows that dietary calorie intake in Japan first increased over the past 50 years and then gradually decreased after reaching a peak around 1995. In the United States, diets continued to increase until they began to decrease after 2000. The calorie intake gap between the two countries first decreased and then gradually increased.
 
@@ -511,7 +505,6 @@ plot_Fat_Calories_Intake <- mydata%>%
   ggtitle("Fat Calories Intake of over the years")
 plot_Fat_Calories_Intake
 ```
-
 
 
 ## Data Explanation
