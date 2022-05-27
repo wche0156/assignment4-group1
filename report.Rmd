@@ -44,6 +44,7 @@ library(transformr)
 
 # Introduction
 With the improvement of people's living standards, more and more people begin to pay attention to diet. As we all know, a healthy diet can help us maintain a healthy body and figure, and effectively prevent dangerous diseases such as high blood pressure and high blood lipids. In our daily diet, our calorie intake mainly comes from three major nutrients, namely protein, fat and carbohydrates. Studies have shown that the proportion of the three major nutrients in the daily diet plays a very important role in human health. On the other hand, people in different regions have different eating habits due to differences in climate and terrain. 
+
 In this report, we research the proportion of various food groups in the Australian diet changed over time, and research different food items FAO concentration in Australia and at different period of time. So that we can see whether people are shifting towards being health conscious or are they taking a healthy and balanced diet or not? Besides, we research the differences in diet between the United States and Japan and analyze the changes in the per capita calorie intake and the intake of the three major nutrients in the United States and Japan since 1960, starting from two aspects of eating habits and time trends A comparative analysis of the eating habits and health of the two countries. Rice consumption vs. latitude and region question is also related to our diet.
 
 
