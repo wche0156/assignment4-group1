@@ -1,6 +1,6 @@
 ---
-title: "research"
-author: Gui Gao, Ishita Khanna, Shu Wang, Chen Wanxin
+title: "Report"
+author: Gui Gao, Ishita Khanna, Shu Wang, Wanxin Chen
 output: 
   bookdown::html_document2: default
   bookdown::pdf_document2: default
