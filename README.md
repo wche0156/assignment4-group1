@@ -1,7 +1,7 @@
 author: Gui Gao, Ishita Khanna, Shu Wang, Wanxin Chen
 date: 26/05/2022
 
-Our group data sources: we downloaded the data csv files from a website called "our world in data", and these data are all related to the topic of diet composition.
+Our group data sources: we downloaded the data csv files from a website called "Our world in Data" which have various data-sets from all over the world on all different topics, and these data are all related to the topic of diet composition.
 
 Purpose：There is a Chinese proverb which says that man is iron, rice is steel, if you don't eat, you will be hungry. As we all know, food is very important and we cannot live without grains, animal protein, fats and other elements. Conversely, an unhealthy diet increases the likelihood of developing diabetes, obesity, cancer and other diseases. We chose to study this topic because it is so relevant to our lives.
 
